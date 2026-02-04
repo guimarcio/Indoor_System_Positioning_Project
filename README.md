@@ -74,3 +74,91 @@ Three dataset configurations were compared during cross-validation:
 
 The final holdout evaluation was performed using the PCA-reduced dataset.
 
+## 💭 Results and Discussion
+
+### 💠 K-Nearest Neighbors (KNN)
+
+KNN performance was evaluated across different values of k (1, 3, 5, 7, 9).
+The best value of k was selected based on the highest mean validation accuracy. Results are reported for cross-validation and holdout evaluation.
+
+| Dataset Configuration              | Features | Evaluation       | Best k | Train Accuracy | Test Accuracy |
+| ---------------------------------- | -------- | ---------------- | ------ | -------------- | ------------- |
+| Standardized data with outliers    | 7        | Cross-Validation | 3      | 99.23%         | 98.55%        |
+| Standardized data without outliers | 7        | Cross-Validation | 3      | 99.54%         | 98.96%        |
+| PCA-reduced data (no outliers)     | 2        | Cross-Validation | 9      | 98.60%         | 98.09%        |
+| PCA-reduced data (no outliers)     | 2        | Holdout          | 9      | 98.78%         | 95.91%        |
+
+### 📈 Gaussian Naive Bayes
+
+The same evaluation procedure was applied to Naive Bayes.
+Since this model does not require hyperparameter tuning in this context, no Grid Search was performed. Performance metrics are reported for both cross-validation and holdout.
+
+| Dataset Configuration              | Features | Evaluation       | Train Accuracy | Test Accuracy |
+| ---------------------------------- | -------- | ---------------- | -------------- | ------------- |
+| Standardized data with outliers    | 7        | Cross-Validation | 98.40%         | 98.25%        |
+| Standardized data without outliers | 7        | Cross-Validation | 98.76%         | 98.80%        |
+| PCA-reduced data (no outliers)     | 2        | Cross-Validation | 98.55%         | 97.87%        |
+| PCA-reduced data (no outliers)     | 2        | Holdout          | 98.64%         | 93.73%        |
+
+### 🌲 Decision Tree
+
+Decision Tree hyperparameters (criterion, max_depth, max_features, min_samples_leaf) were optimized using Grid Search.
+Hyperparameter adjustments were performed during cross-validation to improve generalization and reduce overfitting.
+
+| Dataset Configuration              | Features | Evaluation       | Hyperparameters *(criterion, max_depth, max_features, min_samples_leaf)* | Train Accuracy | Test Accuracy |
+| ---------------------------------- | -------- | ---------------- | ------------------------------------------------------------------------ | -------------- | ------------- |
+| Standardized data with outliers    | 7        | Cross-Validation | [gini, 4, 5, 5]                                                          | 96.79%         | 96.19%        |
+| Standardized data without outliers | 7        | Cross-Validation | [gini, 4, 5, 5]                                                          | 97.59%         | 97.16%        |
+| PCA-reduced data (no outliers)     | 2        | Cross-Validation | [gini, 3, 2, 10]                                                         | 98.26%         | 97.27%        |
+| PCA-reduced data (no outliers)     | 2        | Holdout          | [gini, 3, 2, 10]                                                         | 98.30%         | 95.64%        |
+
+
+### 🧮 Linear SVM
+
+For the Linear SVM model, the hyperparameter C was tuned using Grid Search.
+Model performance was evaluated via cross-validation and holdout testing.
+
+| Dataset Configuration              | Features | Evaluation       | C   | Train Accuracy | Test Accuracy |
+| ---------------------------------- | -------- | ---------------- | --- | -------------- | ------------- |
+| Standardized data with outliers    | 7        | Cross-Validation | 1   | 98.45%         | 98.10%        |
+| Standardized data without outliers | 7        | Cross-Validation | 10  | 99.02%         | 98.75%        |
+| PCA-reduced data (no outliers)     | 2        | Cross-Validation | 2.5 | 98.52%         | 98.26%        |
+| PCA-reduced data (no outliers)     | 2        | Holdout          | 2.5 | 98.64%         | 95.10%        |
+
+
+### 🌀 RBF Kernel SVM
+
+The RBF Kernel SVM model was trained with hyperparameters C and γ, optimized using Grid Search.
+Final results are presented based on the best configuration obtained during cross-validation.
+
+| Dataset Configuration              | Features | Evaluation       | Hyperparameters (C, γ) | Train Accuracy | Test Accuracy |
+| ---------------------------------- | -------- | ---------------- | ---------------------- | -------------- | ------------- |
+| Standardized data with outliers    | 7        | Cross-Validation | [1, 0.1]               | 98.40%         | 98.20%        |
+| Standardized data without outliers | 7        | Cross-Validation | [10, 1]                | 99.96%         | 98.96%        |
+| PCA-reduced data (no outliers)     | 2        | Cross-Validation | [10, 0.1]              | 98.53%         | 98.42%        |
+| PCA-reduced data (no outliers)     | 2        | Holdout          | [10, 0.1]              | 98.50%         | 94.82%        |
+
+
+
+ ## 🔍 Key Findings
+
+After analyzing the experimental results, several important observations were made:
+
+Models trained on the dataset without outliers consistently achieved higher validation accuracy compared to those trained on contaminated data.
+
+Although PCA reduced total variance by 14.25%, models trained on the reduced dataset achieved performance very close to the full 7-feature dataset.
+
+Hyperparameter tuning via Grid Search required manual oversight, as fully automated selection often led to overfitting and poorer validation performance.
+
+Holdout evaluation produced lower performance compared to cross-validation, highlighting the sensitivity of small datasets to data splitting strategies.
+
+All models achieved validation accuracies above 96%, due to low class overlap.
+The best results (~99% validation accuracy) were obtained using the outlier-free dataset with all 7 features, particularly with:
+
+* RBF Kernel SVM
+
+* KNN
+
+However, RBF SVM is preferred in practice, as KNN becomes computationally expensive with larger datasets.
+
+Additional metrics such as Precision, Recall, and F1-score were analyzed and are important depending on the intended IPS application.
