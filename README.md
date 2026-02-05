@@ -34,7 +34,11 @@ Correlation analysis revealed a strong association between features 1 and 4 (cor
 
 Given these correlations, Principal Component Analysis (PCA) was applied for dimensionality reduction. Results showed that projecting the data onto the first two principal components (using the covariance matrix) preserved approximately 85% of the total variance, outperforming direct feature-based dimensionality reduction.
 
+![cov_pca.png](/Images/cov_PCA.png)
+
 Scatter plot analysis of the principal components confirmed the presence of atypical samples in Room 1, which are likely related to multipath signal effects rather than measurement errors.
+
+![data.png](/Images/data.png)
 
 ### 🤖 Classification Models
 
@@ -88,6 +92,8 @@ The best value of k was selected based on the highest mean validation accuracy. 
 | PCA-reduced data (no outliers)     | 2        | Cross-Validation | 9      | 98.60%         | 98.09%        |
 | PCA-reduced data (no outliers)     | 2        | Holdout          | 9      | 98.78%         | 95.91%        |
 
+![knn.png](/Images/knn.png)
+
 #### Confusion Matrix
 | Actual \ Predicted | Room 0 | Room 1 | Room 2 | Room 3 |
 | ------------------ | ------ | ------ | ------ | ------ |
@@ -117,6 +123,8 @@ Since this model does not require hyperparameter tuning in this context, no Grid
 | Standardized data without outliers | 7        | Cross-Validation | 98.76%         | 98.80%        |
 | PCA-reduced data (no outliers)     | 2        | Cross-Validation | 98.55%         | 97.87%        |
 | PCA-reduced data (no outliers)     | 2        | Holdout          | 98.64%         | 93.73%        |
+
+![nbayes.png](/Images/nbayes.png)
 
 #### Confusion Matrix
 
@@ -149,6 +157,8 @@ Hyperparameter adjustments were performed during cross-validation to improve gen
 | PCA-reduced data (no outliers)     | 2        | Cross-Validation | [gini, 3, 2, 10]                                                         | 98.26%         | 97.27%        |
 | PCA-reduced data (no outliers)     | 2        | Holdout          | [gini, 3, 2, 10]                                                         | 98.30%         | 95.64%        |
 
+![dtree.png](/Images/dtree.png)
+
 #### Confusion Matrix
 
 | Actual \ Predicted | Room 0 | Room 1 | Room 2 | Room 3 |
@@ -178,6 +188,8 @@ Model performance was evaluated via cross-validation and holdout testing.
 | Standardized data without outliers | 7        | Cross-Validation | 10  | 99.02%         | 98.75%        |
 | PCA-reduced data (no outliers)     | 2        | Cross-Validation | 2.5 | 98.52%         | 98.26%        |
 | PCA-reduced data (no outliers)     | 2        | Holdout          | 2.5 | 98.64%         | 95.10%        |
+
+![svm.png](/Images/svm.png)
 
 #### Confusion Matrix
 
@@ -209,6 +221,8 @@ Final results are presented based on the best configuration obtained during cros
 | Standardized data without outliers | 7        | Cross-Validation | [10, 1]                | 99.96%         | 98.96%        |
 | PCA-reduced data (no outliers)     | 2        | Cross-Validation | [10, 0.1]              | 98.53%         | 98.42%        |
 | PCA-reduced data (no outliers)     | 2        | Holdout          | [10, 0.1]              | 98.50%         | 94.82%        |
+
+![rbfsvm.png](/Images/rbfsvm.png)
 
 #### Confusion Matrix
 
