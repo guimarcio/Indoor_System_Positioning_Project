@@ -2,6 +2,14 @@
 
 # 📍 Indoor System Positioning: Data Science Project
 
+## 📌 Project Summary
+
+This project applies machine learning techniques to Wi-Fi RSSI data in order to classify indoor device location across four rooms.
+
+Using dimensionality reduction (PCA), outlier detection (Isolation Forest), and multiple classifiers (KNN, Naive Bayes, Decision Tree, SVM), the models achieved up to **99% validation accuracy**.
+
+The best-performing model was **RBF Kernel SVM**, trained on the full dataset without outliers.
+
 ## 💡 Introduction
 
 ### 🌎 Context
@@ -14,7 +22,7 @@ This project focuses on indoor localization using Wi-Fi signals and machine lear
 
 ### 📂 Dataset Description
 
-The [dataset](https://archive.ics.uci.edu/dataset/422/wireless+indoor+localization) is composed of RSSI (Received Signal Strength Indicator) measurements and it was provided in .txt format. It also contains 2,000 measurements collected using a mobile device. Each observation records the RSSI values from seven different Wi-Fi routers (7 features). The eighth column represents the room label where the measurement was taken. The dataset is balanced, with 500 samples collected in each of the four rooms.
+The [dataset](https://archive.ics.uci.edu/dataset/422/wireless+indoor+localization) contains RSSI measurements provided in .txt format. It includes 2,000 measurements collected using a mobile device. Each observation records the RSSI values from seven different Wi-Fi routers (7 features). The eighth column represents the room label where the measurement was taken. The dataset is balanced, with 500 samples collected in each of the four rooms.
 
 ## ⚙️Methods
 
@@ -31,6 +39,8 @@ Afterward, all features were standardized using Z-score normalization. The origi
 An initial exploratory analysis was conducted using histograms for each of the seven features across the four classes. A D’Agostino-Pearson normality test indicated that approximately half of the feature distributions were close to Gaussian, while others showed deviations likely caused by multipath signal propagation effects in indoor environments.
 
 Correlation analysis revealed a strong association between features 1 and 4 (correlation = 0.92), as well as relevant correlations between feature 1 and features 6 and 7. This suggests spatial proximity or directional similarity between certain Wi-Fi routers.
+
+![cor_map.png](cor_map.png)
 
 Given these correlations, Principal Component Analysis (PCA) was applied for dimensionality reduction. Results showed that projecting the data onto the first two principal components (using the covariance matrix) preserved approximately 85% of the total variance, outperforming direct feature-based dimensionality reduction.
 
@@ -56,7 +66,7 @@ The following supervised learning algorithms were evaluated:
 
 All models were implemented in Python (Scikit-learn) using Jupyter Notebook.
 
-Hyperparameters were tuned using Grid Search (when applicable). For KNN, different values of k (1, 3, 5, 7, 9) were tested. Decision Tree and SVM models had their main hyperparameters optimized automatically. For the RBF SVM, both C and γ were tuned.
+Hyperparameters were tuned using Grid Search (when applicable). 
 
 Model evaluation was performed using 5-fold cross-validation, with an 80/20 train-validation split. Mean training and validation accuracy were used as primary metrics.
 
@@ -256,7 +266,7 @@ Hyperparameter tuning via Grid Search required manual oversight, as fully automa
 
 Holdout evaluation produced lower performance compared to cross-validation, highlighting the sensitivity of small datasets to data splitting strategies.
 
-All models achieved validation accuracies above 96%, due to low class overlap.
+All models achieved validation accuracies above 96%, likely due to low class overlap.
 The best results (~99% validation accuracy) were obtained using the outlier-free dataset with all 7 features, particularly with:
 
 * RBF Kernel SVM
