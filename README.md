@@ -8,6 +8,19 @@ Using dimensionality reduction (PCA), outlier detection (Isolation Forest), and 
 
 The best-performing model was **RBF Kernel SVM**, trained on the full dataset without outliers.
 
+## ▶️ How to Run
+
+1. Clone the repository:
+   git clone <[repo-link](https://github.com/guimarcio/Indoor_System_Positioning_Project)>
+
+2. Install dependencies:
+   pip install -r requirements.txt
+
+3. Open the Jupyter Notebook:
+   jupyter notebook
+
+4. Run the main notebook file.
+
 ## 💡 Introduction
 
 ### 🌎 Context
